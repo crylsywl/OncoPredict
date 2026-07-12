@@ -15,7 +15,7 @@ export default function Home() {
   const checkBackendHealth = async () => {
     setCheckingStatus(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/health`);
+      const response = await fetch(`/api/health`);
       if (response.ok) {
         const data = await response.json();
         setBackendConnected(data.status === "healthy");
@@ -69,7 +69,7 @@ export default function Home() {
             ) : backendConnected ? (
               <span className="flex items-center text-xs font-semibold text-emerald-600">
                 <CheckCircle2 className="h-3.5 w-3.5 mr-1.5 text-emerald-500 fill-emerald-50" />
-                Terhubung (Port 8000)
+                Terhubung (Serverless)
               </span>
             ) : (
               <button 

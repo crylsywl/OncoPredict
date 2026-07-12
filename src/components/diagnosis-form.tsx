@@ -72,7 +72,7 @@ export function DiagnosisForm() {
     setCsvResult(null);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/predict`, {
+      const response = await fetch(`/api/predict`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +148,7 @@ export function DiagnosisForm() {
     formData.append("file", selectedFile);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/predict_csv`, {
+      const response = await fetch(`/api/predict_csv`, {
         method: "POST",
         body: formData,
       });

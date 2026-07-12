@@ -1,0 +1,122 @@
+{
+  "mean radius": {
+    "index": 0,
+    "mean": 14.067213186813202
+  },
+  "mean texture": {
+    "index": 1,
+    "mean": 19.247362637362627
+  },
+  "mean perimeter": {
+    "index": 2,
+    "mean": 91.55740659340661
+  },
+  "mean area": {
+    "index": 3,
+    "mean": 648.5410989010988
+  },
+  "mean smoothness": {
+    "index": 4,
+    "mean": 0.0961674285714285
+  },
+  "mean compactness": {
+    "index": 5,
+    "mean": 0.10386890109890125
+  },
+  "mean concavity": {
+    "index": 6,
+    "mean": 0.08919332241758247
+  },
+  "mean concave points": {
+    "index": 7,
+    "mean": 0.048343951648351625
+  },
+  "mean symmetry": {
+    "index": 8,
+    "mean": 0.18061802197802207
+  },
+  "mean fractal dimension": {
+    "index": 9,
+    "mean": 0.06281978021978024
+  },
+  "radius error": {
+    "index": 10,
+    "mean": 0.39897186813186797
+  },
+  "texture error": {
+    "index": 11,
+    "mean": 1.2187292307692315
+  },
+  "perimeter error": {
+    "index": 12,
+    "mean": 2.8225501098901087
+  },
+  "area error": {
+    "index": 13,
+    "mean": 39.243747252747276
+  },
+  "smoothness error": {
+    "index": 14,
+    "mean": 0.007083657142857148
+  },
+  "compactness error": {
+    "index": 15,
+    "mean": 0.025537980219780192
+  },
+  "concavity error": {
+    "index": 16,
+    "mean": 0.03255248263736262
+  },
+  "concave points error": {
+    "index": 17,
+    "mean": 0.011672782417582414
+  },
+  "symmetry error": {
+    "index": 18,
+    "mean": 0.020778830769230764
+  },
+  "fractal dimension error": {
+    "index": 19,
+    "mean": 0.003797283736263736
+  },
+  "worst radius": {
+    "index": 20,
+    "mean": 16.17722637362637
+  },
+  "worst texture": {
+    "index": 21,
+    "mean": 25.647296703296668
+  },
+  "worst perimeter": {
+    "index": 22,
+    "mean": 106.62529670329678
+  },
+  "worst area": {
+    "index": 23,
+    "mean": 869.026593406594
+  },
+  "worst smoothness": {
+    "index": 24,
+    "mean": 0.13232892307692298
+  },
+  "worst compactness": {
+    "index": 25,
+    "mean": 0.2543285714285715
+  },
+  "worst concavity": {
+    "index": 26,
+    "mean": 0.27657819120879135
+  },
+  "worst concave points": {
+    "index": 27,
+    "mean": 0.1139043318681319
+  },
+  "worst symmetry": {
+    "index": 28,
+    "mean": 0.2908652747252748
+  },
+  "worst fractal dimension": {
+    "index": 29,
+    "mean": 0.08394461538461542
+  }
+}
