@@ -1,9 +1,16 @@
 """CSV bulk prediction endpoint for OncoPredict API."""
-from http.server import BaseHTTPRequestHandler
+import os
+import sys
 import json
 import io
 import numpy as np
 import pandas as pd
+from http.server import BaseHTTPRequestHandler
+
+# Add the api directory to Python path so _utils can be imported
+api_dir = os.path.dirname(os.path.abspath(__file__))
+if api_dir not in sys.path:
+    sys.path.insert(0, api_dir)
 
 
 def normalize_name(n):
@@ -38,7 +45,6 @@ class handler(BaseHTTPRequestHandler):
                 boundary = content_type.split("boundary=")[-1].strip()
                 csv_data = self._extract_csv_from_multipart(body, boundary)
             else:
-                # Try treating the entire body as CSV
                 csv_data = body.decode("utf-8")
 
             if csv_data is None:
@@ -70,22 +76,17 @@ class handler(BaseHTTPRequestHandler):
                 else:
                     X_df[original_name] = feature_defaults[original_name]["mean"]
 
-            # Fallback: if CSV has exactly 30 columns and few matches, use column order
             if mapped_count < 5 and df.shape[1] == 30:
                 X_df = pd.DataFrame(df.values, columns=feature_names_ordered)
             elif mapped_count == 0:
                 self._send_json(400, {
-                    "detail": "CSV columns do not match Wisconsin dataset features. "
-                              "Please provide columns like 'mean radius', etc. "
-                              "or exactly 30 ordered feature columns."
+                    "detail": "CSV columns do not match Wisconsin dataset features."
                 })
                 return
 
-            # Ensure numeric and reorder
             X_df = X_df.apply(pd.to_numeric, errors="coerce").fillna(0.0)
             X_df = X_df[feature_names_ordered]
 
-            # Predict
             X_matrix = X_df.values
             X_scaled = scaler.transform(X_matrix)
             predictions = model.predict(X_scaled)
@@ -144,11 +145,9 @@ class handler(BaseHTTPRequestHandler):
 
             for part in parts:
                 if b"filename=" in part and (b".csv" in part.lower()):
-                    # Find the double CRLF that separates headers from content
                     header_end = part.find(b"\r\n\r\n")
                     if header_end != -1:
                         content = part[header_end + 4:]
-                        # Remove trailing boundary markers
                         if content.endswith(b"\r\n"):
                             content = content[:-2]
                         if content.endswith(b"--"):

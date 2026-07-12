@@ -1,5 +1,6 @@
 """Shared model loader for Vercel Python Serverless Functions."""
 import os
+import sys
 import json
 import joblib
 import numpy as np
@@ -11,18 +12,29 @@ _feature_defaults = None
 _feature_names_ordered = None
 
 
-def _get_model_dir():
-    """Get the path to the model directory."""
-    # In Vercel, the working directory is the project root
-    # Try multiple possible paths
+def _find_model_dir():
+    """Find the model directory by searching multiple possible locations."""
+    # Get the directory of this file (api/_utils/)
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    # Project root is two levels up from api/_utils/
+    project_root = os.path.dirname(os.path.dirname(this_dir))
+
     candidates = [
-        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "model"),
+        os.path.join(project_root, "model"),
         os.path.join(os.getcwd(), "model"),
+        # Vercel sometimes uses /var/task as the working directory
+        "/var/task/model",
     ]
+
     for path in candidates:
-        if os.path.isdir(path):
+        model_file = os.path.join(path, "model_mlp.pkl")
+        if os.path.exists(model_file):
             return path
-    raise RuntimeError(f"Model directory not found. Tried: {candidates}")
+
+    raise RuntimeError(
+        f"Model directory not found. Searched: {candidates}. "
+        f"CWD: {os.getcwd()}, __file__: {__file__}"
+    )
 
 
 def load_assets():
@@ -32,14 +44,10 @@ def load_assets():
     if _model is not None and _scaler is not None and _feature_defaults is not None:
         return _model, _scaler, _feature_defaults, _feature_names_ordered
 
-    model_dir = _get_model_dir()
+    model_dir = _find_model_dir()
     model_path = os.path.join(model_dir, "model_mlp.pkl")
     scaler_path = os.path.join(model_dir, "scaler.pkl")
     defaults_path = os.path.join(model_dir, "feature_defaults.json")
-
-    for path in [model_path, scaler_path, defaults_path]:
-        if not os.path.exists(path):
-            raise RuntimeError(f"Required file not found: {path}")
 
     _model = joblib.load(model_path)
     _scaler = joblib.load(scaler_path)

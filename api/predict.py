@@ -1,7 +1,14 @@
 """Single prediction endpoint for OncoPredict API."""
-from http.server import BaseHTTPRequestHandler
+import os
+import sys
 import json
 import numpy as np
+from http.server import BaseHTTPRequestHandler
+
+# Add the api directory to Python path so _utils can be imported
+api_dir = os.path.dirname(os.path.abspath(__file__))
+if api_dir not in sys.path:
+    sys.path.insert(0, api_dir)
 
 
 class handler(BaseHTTPRequestHandler):
